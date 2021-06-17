@@ -660,18 +660,18 @@ class Zplane {
             this.svg.selectAll(".point").data(this.dataSet).attr("x", (d) => {
                 let v = 0;
                 if (d["point"][0] > 0) {
-                    v = this.xPositiveScale(d["point"][0]) - 4;
+                    v = this.xPositiveScale(d["point"][0]);
                 } else {
-                    v = this.xNegativScale(d["point"][0]) - 4;
+                    v = this.xNegativScale(d["point"][0]);
                 }
                 return v;
             })
                 .attr("y", (d) => {
                     let v = 0;
                     if (d["point"][1] >= 0) {
-                        v = this.yPositiveScale(d["point"][1]) + 6;
+                        v = this.yPositiveScale(d["point"][1]);
                     } else {
-                        v = this.yNegativScale(d["point"][1]) + 6;
+                        v = this.yNegativScale(d["point"][1]);
                     }
                     return v;
                 })
@@ -703,17 +703,17 @@ class Zplane {
             this.svg.selectAll(".point").data(this.dataSet).attr("x", (d) => {
                 let v = 0;
                 if (d["point"][0] > 0) {
-                    v = this.xPositiveScale(d["point"][0]) - 4;
+                    v = this.xPositiveScale(d["point"][0]);
                 } else {
-                    v = this.xNegativScale(d["point"][0]) - 4;
+                    v = this.xNegativScale(d["point"][0]);
                 }
                 return v;
             }).attr("y", (d) => {
                 let v = 0;
                 if (d["point"][1] >= 0) {
-                    v = this.yPositiveScale(d["point"][1]) + 6;
+                    v = this.yPositiveScale(d["point"][1]);
                 } else {
-                    v = this.yNegativScale(d["point"][1]) + 6;
+                    v = this.yNegativScale(d["point"][1]);
                 }
                 return v;
             })
@@ -743,17 +743,17 @@ class Zplane {
             this.svg.selectAll(".point").data(this.dataSet).attr("x", (d) => {
                 let v = 0;
                 if (d["point"][0] > 0) {
-                    v = this.xPositiveScale(d["point"][0]) - 5;
+                    v = this.xPositiveScale(d["point"][0]);
                 } else {
-                    v = this.xNegativScale(d["point"][0]) - 5;
+                    v = this.xNegativScale(d["point"][0]);
                 }
                 return v;
             }).attr("y", (d) => {
                 let v = 0;
                 if (d["point"][1] >= 0) {
-                    v = this.yPositiveScale(d["point"][1]) - 5;
+                    v = this.yPositiveScale(d["point"][1]);
                 } else {
-                    v = this.yNegativScale(d["point"][1]) - 5;
+                    v = this.yNegativScale(d["point"][1]);
                 }
                 return v;
             })
