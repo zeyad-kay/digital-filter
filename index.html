@@ -54,9 +54,6 @@
                     <h6>Current j : <span id="current_j"></span></h6>
                 </div>
             </div>
-            <input class="form-check-input" onchange="all_pass_check(this)" type="checkbox" value="" id="allPassCheck">
-            <label class="form-check-label" for="allPassCheck"> All-Pass </label>
-
         </div>
 
 
@@ -208,27 +205,20 @@
             let poles = zplane.get_poles();
             let zeros = zplane.get_zeros();
             let allPass = zplane.get_allPass();
-            let { magnitude, phase } = ztrans.filter(poles, zeros, allPass); //y-axis
+            let response = ztrans.filter(poles, zeros, allPass); //y-axis
             let freqs = ztrans.frequencies; //x-axis
-            charts = plt.plot(freqs, magnitude, freqs, phase, [], [], "frequancy response", "phase response", "All-pass Phase Response");
-            update_allPass();
+            charts = plt.plot(freqs, response.magnitude, freqs, response.phase, [], [], "frequancy response", "phase response", "All-pass Phase Response");
+            update_allPass(response.allPassPhase);
         }
-        const update_allPass = () => {
-            // update all pass
-            let allPass = zplane.get_allPass();
-            let { magnitude, phase } = ztrans.filter([], [], allPass);
+        const update_allPass = (allPassPhase) => {
             let freqs = ztrans.frequencies //x-axis
             charts.myChart3.data.labels = freqs;
             charts.myChart3.data.datasets.forEach((dataset) => {
-                dataset.data = phase;
+                dataset.data = allPassPhase;
             });
             charts.myChart3.update();
         }
-        // const all_pass_check = (ev) => {
-        //     if(ev.checked) {
-
-        //     }
-        // }
+        
         zplane.function_during_drag = update_plots;
         zplane.function_during_delete = update_plots;
         const add_real = (type) => {
@@ -248,7 +238,7 @@
             let value = document.getElementById("allPass").value;
             value = math.complex(value);
             zplane.add_point([value.re, value.im], zplane.types.allPass);
-            update_plots();
+            update_plots("allPass");
         }
         add_custom_all_pass = () => {
             let re = parseFloat(document.getElementById("allPassReal").value);
@@ -264,7 +254,7 @@
             // set value property of opt
             opt.value = c.toString();
             sel.appendChild(opt); 
-            update_plots();
+            update_plots("allPass");
         }
         const add_conj = (type) => {
             if (type == zplane.types.conjPole) {

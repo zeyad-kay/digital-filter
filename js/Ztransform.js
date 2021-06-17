@@ -67,7 +67,6 @@ class ZTransform {
             magResponse.push((magNum / magDenum).toFixed(5));
             phaseResponse.push((phaseNum + allPassPhaseNum - phaseDenum - allPassPhaseDenum).toFixed(5));
             allPassPhaseResponse.push((allPassPhaseNum - allPassPhaseDenum).toFixed(5));
-            // alert(allPassPhaseNum - allPassPhaseDenum)
         }
         return {
             "magnitude": magResponse,
