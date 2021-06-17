@@ -40,12 +40,15 @@ class ZTransform {
     filter(poles = [[]], zeroes = [[]], allPass = [[]]) {
         let magResponse = []
         let phaseResponse = []
-        let magNum, magDenum, phaseNum, phaseDenum, diff;
+        let allPassPhaseResponse = []
+        let magNum, magDenum, phaseNum, phaseDenum, allPassPhaseNum, allPassPhaseDenum, diff;
         for (const point of this.semiUnitCircle) {
             magNum = 1;
             magDenum = 1;
             phaseNum = 0;
             phaseDenum = 0;
+            allPassPhaseNum = 0;
+            allPassPhaseDenum = 0;
             for (const zero of zeroes) {
                 diff = this.difference(point, zero);
                 magNum = magNum * this.magnitude(diff);
@@ -58,15 +61,18 @@ class ZTransform {
             }
             for (const a of allPass) {
                 diff = this.difference(point, a);
-                phaseNum = phaseNum + this.phase([1-point[0]*a[0] - point[1]*a[1],point[0]*a[1] - point[1]*a[0]]);
-                phaseDenum = phaseDenum + this.phase(diff);
+                allPassPhaseNum = allPassPhaseNum + this.phase([1 - point[0] * a[0] - point[1] * a[1], point[0] * a[1] - point[1] * a[0]]);
+                allPassPhaseDenum = allPassPhaseDenum + this.phase(diff);
             }
             magResponse.push((magNum / magDenum).toFixed(5));
-            phaseResponse.push(phaseNum - phaseDenum.toFixed(5));
+            phaseResponse.push((phaseNum + allPassPhaseNum - phaseDenum - allPassPhaseDenum).toFixed(5));
+            allPassPhaseResponse.push((allPassPhaseNum - allPassPhaseDenum).toFixed(5));
+            // alert(allPassPhaseNum - allPassPhaseDenum)
         }
         return {
             "magnitude": magResponse,
-            "phase": phaseResponse
+            "phase": phaseResponse,
+            "allPassPhase": allPassPhaseResponse
         };
     }
 
@@ -74,7 +80,7 @@ class ZTransform {
         const step = (end - start) / (num - 1);
         let arr = [];
         for (let i = 0; i < num; i++) {
-            arr[i] = (start + (i * step)).toFixed(5);
+            arr[i] = (start + (i * step)).toFixed(2);
         }
         return arr;
     }
