@@ -92,7 +92,7 @@
             </div>
         </div>
         <div class="row col-12">
-            <h3>Add conjugate Pole</h3>
+            <h3>Add Conjugate Pole</h3>
         </div>
         <div class="row">
             <div class="col">
@@ -132,7 +132,7 @@
             </div>
         </div>
         <div class="row col-12">
-            <h3>Add conjugate Zero</h3>
+            <h3>Add Conjugate Zero</h3>
         </div>
         <div class="row">
             <div class="col">
@@ -168,7 +168,7 @@
             </div>
         </div>
         <div class="row col-12">
-            <h3>Add your own Filter</h3>
+            <h3>Add Custom Filter</h3>
         </div>
         <div class="row">
             <div class="col">
@@ -199,7 +199,7 @@
         zplane.plot_axis();
         let plt = new Plot(50, 100);
         // update plot 
-        let charts = plt.plot([], [], [], [], [], [], "magnitude response", "phase response", "All Pass Phase Response");
+        let charts = plt.plot([], [], [], [], [], [], "Magnitude", "Phase", "All Pass Phase");
         const update_plots = () => {
             plt.destroy();
             let poles = zplane.get_poles();
@@ -207,7 +207,7 @@
             let allPass = zplane.get_allPass();
             let response = ztrans.filter(poles, zeros, allPass); //y-axis
             let freqs = ztrans.frequencies; //x-axis
-            charts = plt.plot(freqs, response.magnitude, freqs, response.phase, [], [], "frequancy response", "phase response", "All-pass Phase Response");
+            charts = plt.plot(freqs, response.magnitude, freqs, response.phase, [], [], "Magnitude", "Phase", "All Pass Phase");
             update_allPass(response.allPassPhase);
         }
         const update_allPass = (allPassPhase) => {
@@ -254,7 +254,7 @@
             // set value property of opt
             opt.value = c.toString();
             sel.appendChild(opt); 
-            update_plots("allPass");
+            update_plots();
         }
         const add_conj = (type) => {
             if (type == zplane.types.conjPole) {
