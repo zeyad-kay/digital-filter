@@ -1,6 +1,6 @@
 class ZTransform {
     constructor() {
-        this.MAX_POINTS = 500
+        this.MAX_POINTS = 180;
         this.semiUnitCircle = this.generateSemiUnitCircle();
     }
 
