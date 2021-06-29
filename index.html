@@ -6,8 +6,8 @@
     <title>Digital Filter Visualizer</title>
     <script type="text/javascript" src="d3/d3.min.js"></script>
     <script type="text/javascript" src="js/Zplane.js"></script>
-    <script type="text/javascript" src="js/chart/chart.js"></script>
-    <script type="text/javascript" src="js/plot.js"></script>
+    <script type="text/javascript" src="js/Chart.js"></script>
+    <script type="text/javascript" src="js/Plot.js"></script>
     <script type="text/javascript" src="js/Ztransform.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.2/math.min.js"
         integrity="sha512-X8Y5jFgsf/zxQN1X83Tdp1eHCzY52EfcYrDpbLxffRpF3Cyub7v9Jo0b5uwt1x6/h3ZnFzjL+yK12y1f7Q2zhg=="
@@ -22,30 +22,6 @@
 
 <body>
     <section class="d-lg-flex container" id="plots">
-        <div id="circle" class="col  m-sm-5">
-
-            <div class="row mb-4">
-                <div class="col">
-                    <button class="btn h-100 btn-danger" onclick="delete_zeros()">Clear Zeroes</button>
-                </div>
-                <div class="col">
-                    <button class="btn h-100 btn-danger" onclick="delete_poles()">Clear poles</button>
-                </div>
-                <div class="col">
-                    <button class="btn h-100 btn-danger" onclick="delete_all()">Clear All</button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <h6>Current real : <span id="current_x"></span></h6>
-                </div>
-                <div class="col">
-                    <h6>Current j : <span id="current_j"></span></h6>
-                </div>
-            </div>
-        </div>
-
-
         <section class="container mt-5">
             <div id="plot1" class="col">
 
@@ -57,124 +33,69 @@
 
             </div>
         </section>
+        <div id="circle" class="col  m-sm-5">
+            <div class="row mb-4">
+                <div class="col">
+                    <button class="btn h-100 btn-success" onclick="delete_poles()">Clear poles</button>
+                </div>
+                <div class="col">
+                    <button class="btn h-100 btn-success" onclick="delete_zeros()">Clear Zeroes</button>
+                </div>
+                <div class="col">
+                    <button class="btn h-100 btn-success" onclick="delete_all()">Clear All</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h6>Current real : <span id="current_x"></span></h6>
+                </div>
+                <div class="col">
+                    <h6>Current j : <span id="current_j"></span></h6>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <section id="plot_info" class="container mt-5 mb-5">
+    <section id="plot_info" class="container">
         <div class="row col-12">
-            <h3>Add Pole</h3>
+            <h3 class="text-center mb-5">Add Zeroes & Poles Manually</h3>
         </div>
         <div class="row">
+            <select name="PointType" id="PointType" class="col form-select w-51">
+                <option selected value="nonConjPole">Pole</option>
+                <option value="conjPole">Conjugate Pole</option>
+                <option value="nonConjZero">Zero</option>
+                <option value="conjZero">Conjugate Zero</option>
+                <option value="allPass">All Pass</option>
+            </select>
             <div class="col">
-                <h6 for="realPole">Real : </h6>
-            </div>
-            <div class="col">
-                <input type="text" class="form-control" name="realPole" id="realPole" value="0">
-            </div>
-            <div class="col">
-                <h6 for="imagPole">Imaginary : </h6>
-            </div>
-            <div class="col">
-                <input type="text" class="form-control" name="imagPole" id="imagPole" value="0">
+                <input type="text" value="0" class="form-control" id="real">
             </div>
             <div class="col">
-                <button class="btn btn-primary" onclick="add_real('nonConjPole')">add</button>
-            </div>
-        </div>
-        <div class="row col-12">
-            <h3>Add Conjugate Pole</h3>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h6 for="realPole">Real : </h6>
+                <input type="text" value="0" class="form-control" id="imaginary">
             </div>
             <div class="col">
-                <input type="text" name="poleReal" class="form-control" id="poleReal" value="0">
+                <button class="btn btn-success" onclick="addPoint()">Add</button>
             </div>
             <div class="col">
-                <h6 for="imagPole">Imaginary : </h6>
+                <h6 class="mt-2">All-Pass (a)</h6>
             </div>
             <div class="col">
-                <input type="text" name="poleImag" class="form-control" id="poleImag" value="0">
-            </div>
-            <div class="col">
-                <button class="btn btn-primary" onclick="add_conj('conjPole')">add</button>
-            </div>
-        </div>
-        <div class="row col-12">
-            <h3>Add Zero</h3>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h6 for="realPole">Real : </h6>
-            </div>
-            <div class="col">
-                <input type="text" class="form-control" name="realZero" id="realZero" value="0">
-            </div>
-            <div class="col">
-                <h6 for="imagPole">Imaginary : </h6>
-            </div>
-            <div class="col">
-                <input type="text" class="form-control" name="imagZero" id="imagZero" value="0">
-            </div>
-            <div class="col">
-                <button onclick="add_real('nonConjZero')" class="btn btn-primary">add</button>
-            </div>
-        </div>
-        <div class="row col-12">
-            <h3>Add Conjugate Zero</h3>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h6 for="realPole">Real : </h6>
-            </div>
-            <div class="col">
-                <input type="text" name="zeroReal" id="zeroReal" class="form-control" value="0">
-            </div>
-            <div class="col">
-                <h6 for="imagPole">Imaginary : </h6>
-            </div>
-            <div class="col">
-                <input type="text" name="zeroImag" id="zeroImag" class="form-control" value="0">
-            </div>
-            <div class="col">
-                <button onclick="add_conj('conjZero')" class="btn btn-primary">add</button>
-            </div>
-        </div>
-
-        <div class="row mt-4">
-            <div class="col-3">
-                <h3>All Pass Filter</h3>
-            </div>
-            <div class="col-2">
-                <select name="allPass" id="allPass" class="form-select w-51">
-                    <option value="0.5+0.5i" selected>0.5+0.5i</option>
-                    <option value="0.2+0.5i"> 0.2+0.5i</option>
-                    <option value="-0.2+0.5i"> -0.2+0.5i</option>
+                <select name="allPass" id="allPass" class="col form-select w-50">
+                    <option selected value="0.9">0.9</option>
+                    <option value="0.5">0.5</option>
+                    <option value="0.1">0.1</option>
+                    <option value="-0.1">-0.1 + 1i</option>
+                    <option value="-0.5">-0.5</option>
+                    <option value="-0.9">-0.9</option>
                 </select>
             </div>
-            <div class="col-2">
-                <button class="btn btn-primary" onclick="add_allPass()">Add</button>
+            <div class="col">
+                <button class="btn btn-success" onclick="add_allPass()">Use</button>
             </div>
         </div>
-        <div class="row col-12">
-            <h3>Add Custom Filter</h3>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h6 for="realPole">Real : </h6>
-            </div>
-            <div class="col">
-                <input type="text" name="zeroReal" id="allPassReal" class="form-control" value="0">
-            </div>
-            <div class="col">
-                <h6 for="imagPole">Imaginary : </h6>
-            </div>
-            <div class="col">
-                <input type="text" name="zeroImag" id="allPassImag" class="form-control" value="0">
-            </div>
-            <div class="col">
-                <button onclick="add_custom_all_pass()" class="btn btn-primary">add</button>
-            </div>
+        <div class="row mt-5 mb-5">
+
         </div>
     </section>
 
@@ -189,6 +110,25 @@
         let plt = new Plot(50, 100);
         // update plot 
         let charts = plt.plot([], [], [], [], [], [], "Magnitude", "Phase", "All Pass Phase");
+        const addPoint = () => {
+            let re = parseFloat(document.getElementById("real").value);
+            let im = parseFloat(document.getElementById("imaginary").value);
+            let type = document.getElementById("PointType").value;
+            if (type == "allPass") {
+                //add to our lib
+                let c = math.complex(re, im);
+                var sel = document.getElementById('allPass');
+                // create new option element
+                var opt = document.createElement('option');
+                // create text node to add to option element (opt)
+                opt.appendChild(document.createTextNode(c.toString()));
+                // set value property of opt
+                opt.value = c.toString();
+                sel.appendChild(opt);
+            }
+            zplane.add_point([re, im], type);
+            update_plots();
+        }
         const update_plots = () => {
             plt.destroy();
             let poles = zplane.get_poles();
@@ -207,7 +147,7 @@
             });
             charts.myChart3.update();
         }
-        
+
         zplane.function_during_drag = update_plots;
         zplane.function_during_delete = update_plots;
         const add_real = (type) => {
@@ -228,22 +168,6 @@
             value = math.complex(value);
             zplane.add_point([value.re, value.im], zplane.types.allPass);
             update_plots("allPass");
-        }
-        add_custom_all_pass = () => {
-            let re = parseFloat(document.getElementById("allPassReal").value);
-            let im = parseFloat(document.getElementById("allPassImag").value);
-            zplane.add_point([re, im], zplane.types.allPass);
-            //add to our lib
-            let c = math.complex(re, im);
-            var sel = document.getElementById('allPass');
-            // create new option element
-            var opt = document.createElement('option');
-            // create text node to add to option element (opt)
-            opt.appendChild(document.createTextNode(c.toString()));
-            // set value property of opt
-            opt.value = c.toString();
-            sel.appendChild(opt); 
-            update_plots();
         }
         const add_conj = (type) => {
             if (type == zplane.types.conjPole) {

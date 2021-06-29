@@ -1,3 +1,7 @@
+.axis path,
+.axis line {
+ color: darkgray;
+}
 * {
     margin: 0%;
     padding: 0%;
@@ -6,8 +10,4 @@
 
 div {
     margin: 0.25% 0% 0.25% 0%;
-}
-.axis path,
-.axis line {
- color: darkgray;
 }
